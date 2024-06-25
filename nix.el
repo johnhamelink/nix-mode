@@ -190,8 +190,11 @@ OPTIONS a list of options to accept."
   "Whether Nix is a version with Flakes support."
   (let ((version (nix-version)))
     (save-match-data
-      (when (string-match (rx bol "nix (Nix) " (group (+ digit) (?  "." (+ digit))))
-                          version)
+      (when (string-match
+             (rx bol
+                 (and "nix (" (or "Nix" "Lix, like Nix") ") ")
+                 (group (+ digit) (?  "." (+ digit))))
+             version)
         (version<= "2.4" (match-string 1 version))))))
 
 (defun nix-has-flakes ()
